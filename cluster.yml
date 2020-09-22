@@ -128,7 +128,14 @@
     - { role: kubespray-defaults }
     - { role: kubernetes-apps, tags: apps }
   environment: "{{ proxy_env }}"
-
+  
+- hosts: kube-master
+ gather_facts: False
+ any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+ roles:
+   - { role: kubespray-defaults }
+   - { role: roles/kubernetes-apps/helm/, tags: helm}
+   
 - hosts: k8s-cluster
   gather_facts: False
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
